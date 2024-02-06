@@ -165,3 +165,100 @@ function getFirstWord(str) {
 console.log(getFirstWord("Hello world")); // "Hello"
 console.log(getFirstWord("Hello world")); // "Hello"
 console.log(getFirstWord("Hello world")); // "Hello"
+
+// ---
+// Рекурсію
+// Ітеративний підхід
+function pow(x, n) {
+  let result = 1;
+
+  // множимо result на x n разів у циклі
+  for (let i = 0; i < n; i++) {
+    result *= x;
+  }
+
+  return result;
+}
+
+console.log(pow(3, 2)); // 9
+console.log(pow(3, 1)); // 3
+console.log(pow(3, 3)); // 27
+
+// Рішення з використанням рекурсії
+function pow(x, n) {
+  if (n === 1) {
+    return x;
+  }
+
+  return x * pow(x, n - 1);
+}
+
+console.log(pow(3, 3));
+
+// 3,3 => 3 * pow(3, 2)
+// 3,2 => 3 * pow(3, 1)
+// 3,1 => 3
+// 3 * 3 * 3 -> 27
+
+// Факторіал
+function factorial(n) {
+  if (n === 1) {
+    return 1; // базовий випадок
+  }
+
+  return n * factorial(n - 1); // рекурсивний виклик
+}
+
+console.log(factorial(5)); // 120
+
+// factorial(5) -> 5 * factorial(4) -> 4 * factorial(3) ... 1
+// 1 * 2 * 3 * 4 * 5
+
+// Група 1
+function convertTemperature(temperature, unit = "") {
+  //   if (!unit) {
+  //     return "Невідома одиниця виміру";
+  //   }
+
+  const upperCaseUnit = unit.toUpperCase();
+
+  if (upperCaseUnit === "C") {
+    return ((temperature * 9) / 5 + 32).toFixed(1);
+  }
+
+  if (upperCaseUnit === "F") {
+    return (((temperature - 32) * 5) / 9).toFixed(1);
+  }
+
+  return "Невідома одиниця виміру";
+}
+
+console.log(convertTemperature(32, "C")); // повинно повертати 89.6 (це 32°C у фаренгейтах)
+console.log(convertTemperature(100, "F")); // повинно повертати 37.8 (це 100°F у цельсіях)
+console.log(convertTemperature(100)); // повинно повертати "Невідома одиниця виміру!"
+
+// Група 2
+// function isStrongPassword(password) {
+//   if (
+//     password.length >= 8 &&
+//     password[0] == password[0].toUpperCase() &&
+//     password[password.length - 1] == password[password.length - 1].toLowerCase()
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
+
+function isStrongPassword(password, minLength = 8) {
+  const hasUpperCase = password[0] === password[0].toUpperCase();
+  const lastIndex = password.length - 1;
+  const hasLowerCase =
+    password[lastIndex] === password[lastIndex].toLowerCase();
+  const hasValidLength = password.length >= minLength;
+
+  return hasUpperCase && hasLowerCase && hasValidLength;
+}
+
+console.log(isStrongPassword("Example")); // true
+console.log(isStrongPassword("example")); // false
+console.log(isStrongPassword("Ex")); // false
