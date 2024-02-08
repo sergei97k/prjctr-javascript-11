@@ -213,3 +213,69 @@ function sumOfEvenNumbers(array) {
 }
 
 console.log(sumOfEvenNumbers([1, 2, 3, 4, 5, 6])); // 12
+
+// Деструктуризація
+// Масиви
+let colors = ["red", "green", "blue"];
+// let [firstColor, secondColor] = colors;
+// console.log(firstColor); // red
+// console.log(secondColor); // green
+let [, , thirdColor, fourthColor = "default color"] = colors;
+console.log(thirdColor); // blue
+console.log("fourthColor", fourthColor); // undefined
+
+// ---------
+// Об'єкти
+let person = {
+  name: "John",
+  age: 30,
+  address: {
+    street: "123 Main St",
+    city: "Anytown",
+  },
+};
+let {
+  name,
+  age: personAge,
+  address: { street },
+} = person;
+console.log(name); // John
+console.log(personAge); // 30
+console.log(street);
+
+// ---------
+// У функціях
+function introduce({ name, age }) {
+  console.log(`My name is ${name} and I am ${age} years old.`);
+}
+
+const person = {
+  name: "John",
+  age: 30,
+  isAdmin: true,
+  salary: 300,
+};
+
+introduce(person);
+
+// У масивах
+const users = [
+  { id: 1, name: "John" },
+  { id: 2, name: "Jane" },
+  { id: 3, name: "Doe" },
+];
+
+users.forEach(({ id, name }) => {
+  console.log(`ID: ${id}, Name: ${name}`);
+});
+
+// ---
+
+const users = [
+  { id: 1, name: "John", isAdmin: true },
+  { id: 2, name: "Jane", isAdmin: false },
+  { id: 3, name: "Doe", isAdmin: true },
+];
+
+const admins = users.filter(({ isAdmin }) => isAdmin);
+console.log(admins);
