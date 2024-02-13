@@ -111,19 +111,19 @@
 // b(); // 666
 
 // 3
-let test = 666;
+// let test = 666;
 
-function b() {
-  let test = 777;
+// function b() {
+//   let test = 777;
 
-  function a() {
-    console.log(test); // 777
-  }
+//   function a() {
+//     console.log(test); // 777
+//   }
 
-  a();
-}
+//   a();
+// }
 
-b();
+// b();
 
 // makeWorker
 function makeWorker() {
@@ -139,22 +139,22 @@ let work = makeWorker();
 work(); // це - функція!
 
 // makeCounter
-function makeCounter() {
-  let count = 0;
+// function makeCounter() {
+//   let count = 0;
 
-  return function () {
-    return (count += 1);
-  };
-}
+//   return function () {
+//     return (count += 1);
+//   };
+// }
 
-const counter = makeCounter(); // counter == function
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
+// const counter = makeCounter(); // counter == function
+// console.log(counter()); // 1
+// console.log(counter()); // 2
+// console.log(counter()); // 3
 
-const counter2 = makeCounter();
-console.log(counter2()); // 1
-console.log(counter2()); // 2
+// const counter2 = makeCounter();
+// console.log(counter2()); // 1
+// console.log(counter2()); // 2
 
 function createCalculator(defaultValue = 0) {
   let value = defaultValue;
@@ -224,18 +224,101 @@ console.log(calc2.getValue()); // 40
 // console.log(complexSum()); // 12
 
 // 4
-let phrase = "Hello";
+// let phrase = "Hello";
 
-if (true) {
-  let user = "John";
+// if (true) {
+//   let user = "John";
 
-  function sayPhrase() {
-    console.log(`${phrase}, ${user}`);
-  }
+//   function sayPhrase() {
+//     console.log(`${phrase}, ${user}`);
+//   }
+// }
+
+// let user = "Peter";
+
+// sayPhrase(); // ?
+
+// user = "Jack";
+
+// Об'єкт функції та NFE
+function sum(a, b) {
+  return a + b;
 }
 
-let user = "Peter";
+console.log(sum.name); // sum
+console.log(sum.length); // 2
+console.log(sum); // Код функції
 
-sayPhrase(); // ?
+// приклад альтернатива замиканням
+function makeCounter() {
+  function counter() {
+    return (counter.count += 1);
+  }
 
-user = "Jack";
+  counter.count = 0;
+
+  return counter;
+}
+
+const counter = makeCounter();
+counter.count = 10;
+console.log(counter()); // 11
+console.log(counter()); // 12
+console.log(counter.count);
+
+// ---
+// NFE
+const greet = function sayHello() {
+  console.log("Hello!");
+};
+
+greet();
+
+// ---
+
+let sayHi = function func(who) {
+  if (who) {
+    console.log(`Hello, ${who}`);
+  } else {
+    func("Guest");
+  }
+};
+
+sayHi(); // Hello, Guest
+
+// ---
+// 1
+// let a;
+
+// function x(x) {
+//   return x * 2;
+// }
+
+// a = x;
+
+// console.log(a); // ?
+
+// ---
+const a = {};
+const b = {
+  key: "b",
+};
+const c = {
+  key: "c",
+};
+
+console.log(b["key"]); // b
+console.log(c["key"]); // c
+
+// a[{ key: 'b' }] -> a[object Object]
+
+// a[b] -> { [object Object]: 666 }
+a[b] = 666;
+// a[c] -> { [object Object]: 777 }
+a[c] = 777;
+
+console.log(a[b]); // 777
+console.log(a);
+
+let object = {};
+console.log(object.toString());
