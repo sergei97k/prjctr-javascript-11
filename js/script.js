@@ -110,27 +110,259 @@
 
 // setTimeout(logMessage, delay);
 
-function delayedOutput(string, delay) {
-  let index = 0;
+// function delayedOutput(string, delay) {
+//   let index = 0;
 
-  function showChar() {
-    if (string.length === index) {
-      return;
-    }
+//   function showChar() {
+//     if (string.length === index) {
+//       return;
+//     }
 
-    console.log(string[index]);
-    index++;
+//     console.log(string[index]);
+//     index++;
 
-    setTimeout(showChar, delay);
-  }
+//     setTimeout(showChar, delay);
+//   }
 
-  showChar();
+//   showChar();
+// }
+
+// // delayedOutput("hello", 500);
+// // h
+// // e
+// // l
+// // l
+// // o
+// delayedOutput("lorem ipsum dolot sit amet", 700);
+
+// -------------
+// варіант 1
+// const user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+// };
+
+// user.sayPhrase = function (phrase) {
+//   console.log(phrase);
+// };
+
+// user.sayPhrase("Привіт!");
+
+// варіант 2
+// const user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+// };
+
+// function sayPhrase(phrase) {
+//   console.log(phrase);
+// }
+
+// user.sayPhrase = sayPhrase;
+
+// user.sayPhrase("Здоров!");
+
+// варіант 3
+// const user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+//   sayPhrase: function (phrase) {
+//     console.log(phrase);
+//   },
+// };
+
+// user.sayPhrase("Що там?");
+
+// варіант 4
+// const user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+//   sayPhrase(phrase) {
+//     console.log(phrase);
+//   },
+// };
+
+// user.sayPhrase("Як там?");
+
+/// ----
+// this
+// const user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+//   introduce() {
+//     console.log(`My name is ${this.name}!`);
+//   },
+// };
+
+// user.introduce(); // "Helga"
+// user.name = "Anna";
+// user.introduce(); // "Anna"
+
+// ---
+// приклад чому не варто використовувати пряме посилання
+// let user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+//   introduce() {
+//     console.log(`My name is ${user.name}!`);
+//   },
+// };
+
+// let anotherUser = user; // copy obj
+// user = null; // видаляємо об'єкт
+
+// anotherUser.introduce();
+
+// значення this не є фіксованим
+// function introduceUser() {
+//   console.log(`My name is ${this.name}!`);
+// }
+
+// let user = {
+//   name: "Helga",
+//   gender: "female",
+//   age: 43,
+//   introduce: introduceUser,
+// };
+
+// let anotherUser = {
+//   name: "Derek",
+//   gender: "male",
+//   age: 35,
+//   introduce: introduceUser,
+// };
+
+// user.introduce();
+// anotherUser.introduce();
+// introduceUser();
+
+// this + arrow function
+// let person = {
+//   fullName: "John",
+//   introduce: () => {
+//     console.log("Hi", this.fullName);
+//   },
+// };
+
+// person.introduce();
+
+// Контекст
+// let user = {
+//   firstName: "Василь",
+//   sayHi() {
+//     console.log(`Мене звати ${this.firstName}!`);
+//   },
+// };
+
+// setTimeout(user.sayHi, 1000);
+
+// 1 = ненайдійне
+// setTimeout(() => user.sayHi(), 1000);
+// user = null;
+
+// 2
+// let user = {
+//   firstName: "Василь",
+//   sayHi() {
+//     console.log(`Мене звати ${this.firstName}!`);
+//   },
+// };
+
+// let bindedSayHi = user.sayHi.bind(user);
+
+// setTimeout(bindedSayHi, 1000);
+
+// 3
+// let user = {
+//   firstName: "Василь",
+// };
+
+// let anotherUser = {
+//   firstName: "bob",
+// };
+
+// function sayPhrase(phrase) {
+//   console.log(`${phrase} ${this.firstName}!`);
+// }
+
+// let bindedSayHi = sayPhrase.bind(user, "Привіт");
+// let bindedSayBye = sayPhrase.bind(anotherUser, "Бувай");
+// let bindedSayPhrase = sayPhrase.bind(user);
+
+// setTimeout(bindedSayBye, 1000);
+
+// bindedSayHi();
+// bindedSayPhrase("Wwwwww");
+
+// call and apply
+// call
+// function introduce(experience) {
+//   console.log(
+//     `My name is ${this.name}. I've been working in the company ${experience} years.`
+//   );
+// }
+
+// const person1 = { name: "Alice" };
+// const person2 = { name: "Bob" };
+
+// introduce.call(person1, 5); // "My name is Alice"
+// introduce.call(person2, 3); // "My name is Bob"
+// introduce.apply(person1, [5]);
+// introduce.apply(person2, [6]);
+
+// apply
+// function introduce() {
+//   console.log(`My name is ${this.name}`);
+// }
+
+// const person1 = { name: "Alice" };
+// const person2 = { name: "Bob" };
+
+// introduce.apply(person1); // "My name is Alice"
+// introduce.apply(person2); // "My name is Bob"
+
+const book1 = {
+  title: "Brave New World",
+  author: "Aldous Huxley",
+};
+
+const book2 = {
+  title: "1984",
+  author: "George Orwell",
+};
+
+function summary() {
+  console.log(`${this.title} was written by ${this.author}.`);
 }
 
-// delayedOutput("hello", 500);
-// h
-// e
-// l
-// l
-// o
-delayedOutput("lorem ipsum dolot sit amet", 700);
+summary.bind(book1)();
+summary.bind(book2)();
+
+summary.call(book1);
+summary.apply(book2);
+
+function showLongerSummary(genre, year) {
+  console.log(
+    `${this.title} was written by ${this.author}. It is a ${genre} novel written in ${year}.`
+  );
+}
+
+showLongerSummary.call(book1, "dystopian", 1932);
+showLongerSummary.apply(book2, ["dystopian", 1948]);
+
+// ---
+
+function add(a, b) {
+  console.log(this.base + a + b);
+}
+
+const numbers = { base: 10 };
+
+add.apply(numbers, [5, 3]); // 18
+add.call(numbers, 5, 3); // 18
