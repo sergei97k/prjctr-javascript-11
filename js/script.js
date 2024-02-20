@@ -327,42 +327,91 @@
 // introduce.apply(person1); // "My name is Alice"
 // introduce.apply(person2); // "My name is Bob"
 
-const book1 = {
-  title: "Brave New World",
-  author: "Aldous Huxley",
-};
+// const book1 = {
+//   title: "Brave New World",
+//   author: "Aldous Huxley",
+// };
 
-const book2 = {
-  title: "1984",
-  author: "George Orwell",
-};
+// const book2 = {
+//   title: "1984",
+//   author: "George Orwell",
+// };
 
-function summary() {
-  console.log(`${this.title} was written by ${this.author}.`);
+// function summary() {
+//   console.log(`${this.title} was written by ${this.author}.`);
+// }
+
+// summary.bind(book1)();
+// summary.bind(book2)();
+
+// summary.call(book1);
+// summary.apply(book2);
+
+// function showLongerSummary(genre, year) {
+//   console.log(
+//     `${this.title} was written by ${this.author}. It is a ${genre} novel written in ${year}.`
+//   );
+// }
+
+// showLongerSummary.call(book1, "dystopian", 1932);
+// showLongerSummary.apply(book2, ["dystopian", 1948]);
+
+// // ---
+
+// function add(a, b) {
+//   console.log(this.base + a + b);
+// }
+
+// const numbers = { base: 10 };
+
+// add.apply(numbers, [5, 3]); // 18
+// add.call(numbers, 5, 3); // 18
+
+// ------------------------
+// 1
+// let test = 123;
+
+// function b() {
+//   let test = 456;
+//   a();
+// }
+
+// function a() {
+//   console.log(test);
+// }
+
+// b(); // 123
+
+// 2
+// arguments
+// function foo(a, b) {
+//   console.log(arguments);
+// }
+
+// foo(20, 10);
+
+// function b(x, y, a) {
+//   // Перезапусуємо третій аргумент
+//   arguments[2] = 10;
+//   console.log(a); // 10
+// }
+
+// b(1, 2, 3);
+
+// Що буде виведено в консоль і чому?
+function wtf() {
+  function f1() {
+    return 666;
+  }
+
+  return f2();
+
+  // function f2() {
+  //   return 777;
+  // }
+  let f2 = function () {
+    return 777;
+  };
 }
 
-summary.bind(book1)();
-summary.bind(book2)();
-
-summary.call(book1);
-summary.apply(book2);
-
-function showLongerSummary(genre, year) {
-  console.log(
-    `${this.title} was written by ${this.author}. It is a ${genre} novel written in ${year}.`
-  );
-}
-
-showLongerSummary.call(book1, "dystopian", 1932);
-showLongerSummary.apply(book2, ["dystopian", 1948]);
-
-// ---
-
-function add(a, b) {
-  console.log(this.base + a + b);
-}
-
-const numbers = { base: 10 };
-
-add.apply(numbers, [5, 3]); // 18
-add.call(numbers, 5, 3); // 18
+console.log(wtf()); //  777
