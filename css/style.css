@@ -6,3 +6,11 @@
 body {
   background-color: #3548fe;
 }
+
+.links li {
+  font-weight: bold;
+}
+
+.active {
+  color: red;
+}
