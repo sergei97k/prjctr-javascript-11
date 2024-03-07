@@ -6,3 +6,20 @@
 body {
   background-color: #3548fe;
 }
+
+select,
+input {
+  color: black;
+}
+
+.form,
+.form div,
+.form p {
+  padding: 16px;
+  border: 2px solid yellow;
+  border-radius: 10px;
+}
+
+.active {
+  font-weight: bold;
+}
