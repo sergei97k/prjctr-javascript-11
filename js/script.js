@@ -19,7 +19,8 @@ const addTask = (event) => {
 
   // Create and add LI element
   const li = document.createElement("li");
-  li.textContent = value; // Значення яке ввів користувач
+  // li.textContent = value; // Значення яке ввів користувач
+  li.innerHTML = `${value} <i class="fa fa-remove delete-item"></i>`;
   taskList.append(li);
 
   // Очистити форму
@@ -32,6 +33,29 @@ const addTask = (event) => {
   taskInput.focus();
 };
 
+const clearTasks = () => {
+  taskList.innerHTML = "";
+};
+
+const removeTask = (event) => {
+  const isDeleteButton = event.target.classList.contains("delete-item");
+  if (!isDeleteButton) {
+    return;
+  }
+
+  const isConfirmed = confirm("Ви впевнені що хочете видалити це завдання?");
+  if (!isConfirmed) {
+    return;
+  }
+
+  const li = event.target.closest("li");
+  li.remove();
+};
+
 // Event listeners
 // onsubmit
 form.addEventListener("submit", addTask);
+
+clearButton.addEventListener("click", clearTasks);
+
+taskList.addEventListener("click", removeTask);
