@@ -1,7 +1,7 @@
 "use strict";
 
 // const
-const STORAGE_KEY = "tasks";
+const TASKS_STORAGE_KEY = "tasks";
 
 // DOM variables
 const form = document.querySelector(".create-task-form");
@@ -12,18 +12,18 @@ const filterInput = document.querySelector(".filter-input");
 
 // "storage" functions
 const getTasksFromStorage = () => {
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  return JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY)) || [];
 };
 
 const storeTaskInStorage = (newTask) => {
   const tasks = getTasksFromStorage();
   tasks.push(newTask);
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
 };
 
 const clearTasksFromStorage = () => {
-  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(TASKS_STORAGE_KEY);
 };
 
 const removeTaskFromStorage = (deletedTask) => {
@@ -32,7 +32,7 @@ const removeTaskFromStorage = (deletedTask) => {
   const deletedIndex = tasks.findIndex((task) => task === deletedTask);
   tasks.splice(deletedIndex, 1);
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
 };
 
 //
