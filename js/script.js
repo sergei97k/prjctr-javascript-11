@@ -62,6 +62,67 @@ const handleResult = () => {
   if (OPERATORS.includes(lastChar) || lastChar === ".") {
     return;
   }
+
+  // Отримуємо масив всіх введених чисел
+  const numbersResult = currentValue
+    .split(/\+|\-|\×|\÷/g)
+    .map((value) => +value);
+  console.log(numbersResult);
+
+  // Отримуємо масив всіх операторів "+-+-"
+  const operatorsResult = currentValue.replace(/\d+|\./g, "").split("");
+  console.log(operatorsResult);
+
+  // 5x2x3
+  // numbers = [5, 2, 3]
+  // operators = [x, x]
+  let mupltiplyIndex = operatorsResult.indexOf("×");
+
+  while (mupltiplyIndex !== -1) {
+    // Отримуємо результат операції
+    const tempResult =
+      numbersResult[mupltiplyIndex] * numbersResult[mupltiplyIndex + 1];
+
+    // Видаляємо оператор, який вже виконав математичну операцію
+    operatorsResult.splice(mupltiplyIndex, 1); // [x, x] => [x]
+
+    // Отриманий результат замінити у масиві numbers
+    numbersResult.splice(mupltiplyIndex, 2, tempResult); // [5, 2, 3] => [10, 3]
+
+    // console.log("numbers", numbersResult);
+    // console.log("operators", operatorsResult);
+
+    // Знаходимо наступний оператор
+    mupltiplyIndex = operatorsResult.indexOf("×");
+  }
+
+  let divideIndex = operatorsResult.indexOf("÷");
+  while (divideIndex !== -1) {
+    const tempResult =
+      numbersResult[divideIndex] / numbersResult[divideIndex + 1];
+    operatorsResult.splice(divideIndex, 1);
+    numbersResult.splice(divideIndex, 2, tempResult);
+    divideIndex = operatorsResult.indexOf("÷");
+  }
+
+  let substractIndex = operatorsResult.indexOf("-");
+  while (substractIndex !== -1) {
+    const tempResult =
+      numbersResult[substractIndex] - numbersResult[substractIndex + 1];
+    operatorsResult.splice(substractIndex, 1);
+    numbersResult.splice(substractIndex, 2, tempResult);
+    substractIndex = operatorsResult.indexOf("-");
+  }
+
+  let sumIndex = operatorsResult.indexOf("+");
+  while (sumIndex !== -1) {
+    const tempResult = numbersResult[sumIndex] + numbersResult[sumIndex + 1];
+    operatorsResult.splice(sumIndex, 1);
+    numbersResult.splice(sumIndex, 2, tempResult);
+    sumIndex = operatorsResult.indexOf("+");
+  }
+
+  value.textContent = numbersResult[0];
 };
 
 // Event listeners
@@ -78,3 +139,22 @@ numbers.forEach((number) => {
 buttonClear.addEventListener("click", handleClear);
 
 result.addEventListener("click", handleResult);
+
+// Регулярні вирази
+// let string = "The quick brown fox jumps over the lazy dog.";
+// let regExp = /fox/;
+// console.log(regExp.test(string)); // true
+
+//
+// let string = "Hello World!";
+// let newString = string.replace("World", "Ukraine");
+// console.log(newString);
+
+// let string = "Today is 15th March, 2024.";
+// console.log(string.replace(/\d+/, "XX")); // "Today is XXth March, 2024."
+// console.log(string.replace(/\d+/g, "XX")); // "Today is XXth March, XX."
+
+// //
+
+// let resultMult = "2*3*4";
+// console.log(resultMult.split(/\*/g)); // ['2', '3', '4']
