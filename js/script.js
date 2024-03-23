@@ -66,12 +66,14 @@ const handleSubmit = (event) => {
   const authorValue = author.value.trim();
   const isbnValue = isbn.value.trim();
 
+  const ui = new UI();
+
   if (titleValue === "" || authorValue === "" || isbnValue === "") {
+    ui.showAlert("Fill the form", "error");
     return;
   }
 
   const book = new Book(titleValue, authorValue, isbnValue);
-  const ui = new UI();
   ui.addBookToList(book);
 };
 
