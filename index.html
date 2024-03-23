@@ -7,11 +7,24 @@
     <title>PRJCTR JavaScript 11</title>
 
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/script.js"></script>
 </head>
 
 <body>
-    <h1>PRJCTR JavaScript 11</h1>
+    <h1>Booklist App</h1>
+
+    <form id="book-form">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="author" placeholder="Author">
+        <input type="text" id="isbn" placeholder="ISBN">
+        <button type="submit">Add Book</button>
+    </form>
+
+    <section>
+        <h2>Books</h2>
+        <ul id="book-list"></ul>
+    </section>
+
+    <script src="./js/script.js"></script>
 </body>
 
 </html>
