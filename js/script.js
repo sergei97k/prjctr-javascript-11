@@ -17,7 +17,7 @@ class Book {
 }
 
 class UI {
-  addBookToList({ title, author, isbn }) {
+  addBookToList({ title, author, isbn }, shouldShowAlert = true) {
     const li = document.createElement("li");
     li.innerHTML = `
         <span>${title}</span>
@@ -28,8 +28,10 @@ class UI {
 
     bookList.append(li);
 
-    this.clearFields();
-    this.showAlert("Book added", "success");
+    if (shouldShowAlert) {
+      this.clearFields();
+      this.showAlert("Book added", "success");
+    }
   }
 
   deleteBook(target) {
@@ -38,6 +40,10 @@ class UI {
     }
 
     this.showAlert("Book removed", "success");
+  }
+
+  displayBooks(books) {
+    books.forEach((book) => this.addBookToList(book, false));
   }
 
   clearFields() {
@@ -58,6 +64,36 @@ class UI {
   }
 }
 
+class Storage {
+  #storageKey = "books";
+
+  getBooks() {
+    let books;
+
+    if (localStorage.getItem(this.#storageKey) === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem(this.#storageKey));
+    }
+
+    return books;
+  }
+
+  addBook(book) {
+    const books = this.getBooks();
+    books.push(book);
+
+    localStorage.setItem(this.#storageKey, JSON.stringify(books));
+  }
+
+  removeBook(index) {
+    const books = this.getBooks();
+    books.splice(index, 1);
+
+    localStorage.setItem(this.#storageKey, JSON.stringify(books));
+  }
+}
+
 // functions
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -75,16 +111,35 @@ const handleSubmit = (event) => {
 
   const book = new Book(titleValue, authorValue, isbnValue);
   ui.addBookToList(book);
+
+  const storage = new Storage();
+  storage.addBook(book);
 };
 
 const handleRemove = (event) => {
   event.preventDefault();
 
+  const index = [...bookList.children].findIndex(
+    (book) => book === event.target
+  );
+
   const ui = new UI();
   ui.deleteBook(event.target);
+
+  const storage = new Storage();
+  storage.removeBook(index);
+};
+
+const initBooks = () => {
+  const ui = new UI();
+  const storage = new Storage();
+  const books = storage.getBooks();
+  ui.displayBooks(books);
 };
 
 // Event listeners
+initBooks();
+
 bookForm.addEventListener("submit", handleSubmit);
 
 bookList.addEventListener("click", handleRemove);
