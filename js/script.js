@@ -7,6 +7,49 @@ const author = document.getElementById("author");
 const isbn = document.getElementById("isbn");
 const bookList = document.getElementById("book-list");
 
+// classes
+class Book {
+  constructor(title, author, isbn) {
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
+  }
+}
+
+class UI {
+  addBookToList({ title, author, isbn }) {
+    const li = document.createElement("li");
+    li.innerHTML = `
+        <span>${title}</span>
+        <span>${author}</span>
+        <span>${isbn}</span>
+        <button class="delete">Delete</button>
+    `;
+
+    bookList.append(li);
+
+    this.clearFields();
+    this.showAlert("Book added", "success");
+  }
+
+  clearFields() {
+    title.value = "";
+    author.value = "";
+    isbn.value = "";
+  }
+
+  showAlert(message, className) {
+    const div = document.createElement("div");
+    div.className = `alert ${className}`;
+    div.append(message);
+
+    const form = document.querySelector("#book-form");
+    document.body.insertBefore(div, form);
+
+    setTimeout(() => document.querySelector(".alert").remove(), 3000);
+  }
+}
+
 // functions
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -18,6 +61,10 @@ const handleSubmit = (event) => {
   if (titleValue === "" || authorValue === "" || isbnValue === "") {
     return;
   }
+
+  const book = new Book(titleValue, authorValue, isbnValue);
+  const ui = new UI();
+  ui.addBookToList(book);
 };
 
 // Event listeners
