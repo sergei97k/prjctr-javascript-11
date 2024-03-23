@@ -5,24 +5,27 @@ const bookForm = document.getElementById("book-form");
 const title = document.getElementById("title");
 const author = document.getElementById("author");
 const isbn = document.getElementById("isbn");
+const genre = document.getElementById("genre");
 const bookList = document.getElementById("book-list");
 
 // classes
 class Book {
-  constructor(title, author, isbn) {
+  constructor(title, author, isbn, genre) {
     this.title = title;
     this.author = author;
     this.isbn = isbn;
+    this.genre = genre;
   }
 }
 
 class UI {
-  addBookToList({ title, author, isbn }, shouldShowAlert = true) {
+  addBookToList({ title, author, isbn, genre }, shouldShowAlert = true) {
     const li = document.createElement("li");
     li.innerHTML = `
         <span>${title}</span>
         <span>${author}</span>
         <span>${isbn}</span>
+        <span>${genre}</span>
         <button class="delete">Delete</button>
     `;
 
@@ -109,7 +112,7 @@ const handleSubmit = (event) => {
     return;
   }
 
-  const book = new Book(titleValue, authorValue, isbnValue);
+  const book = new Book(titleValue, authorValue, isbnValue, genre.value);
   ui.addBookToList(book);
 
   const storage = new Storage();
