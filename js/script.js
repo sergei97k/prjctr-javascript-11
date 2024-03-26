@@ -23,12 +23,21 @@ class UI {
       <span>${book.title}</span>
       <span>${book.author}</span>
       <span>${book.isbn}</span>
+      <button class="delete">Delete</button>
     `;
 
     bookList.append(li);
 
     this.clearFields();
     this.showAlert("Book added");
+  }
+
+  deleteBook(target) {
+    if (target.className === "delete") {
+      target.closest("li").remove();
+
+      this.showAlert("Book deleted");
+    }
   }
 
   clearFields() {
@@ -49,6 +58,9 @@ class UI {
   }
 }
 
+// class using
+const ui = new UI();
+
 // functions
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -62,10 +74,15 @@ const handleSubmit = (event) => {
   }
 
   const book = new Book(titleValue, authorValue, isbnValue);
-  const ui = new UI();
   ui.addBookToList(book);
   // ui.clearFields();
 };
 
+const handleRemove = (event) => {
+  ui.deleteBook(event.target);
+};
+
 // Event listeners
 bookForm.addEventListener("submit", handleSubmit);
+
+bookList.addEventListener("click", handleRemove);
