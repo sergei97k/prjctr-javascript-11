@@ -6,23 +6,26 @@ const bookList = document.getElementById("book-list");
 const title = document.getElementById("title");
 const author = document.getElementById("author");
 const isbn = document.getElementById("isbn");
+const genre = document.getElementById("genre");
 
 // classes
 class Book {
-  constructor(title, author, isbn) {
+  constructor(title, author, isbn, genre) {
     this.title = title;
     this.author = author;
     this.isbn = isbn;
+    this.genre = genre;
   }
 }
 
 class UI {
-  addBookToList(book) {
+  addBookToList({ title, author, isbn, genre }) {
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${book.title}</span>
-      <span>${book.author}</span>
-      <span>${book.isbn}</span>
+      <span>${title}</span>
+      <span>${author}</span>
+      <span>${isbn}</span>
+      <span>${genre}</span>
       <button class="delete">Delete</button>
     `;
 
@@ -109,7 +112,7 @@ const handleSubmit = (event) => {
     return;
   }
 
-  const book = new Book(titleValue, authorValue, isbnValue);
+  const book = new Book(titleValue, authorValue, isbnValue, genre.value);
   ui.addBookToList(book);
   ui.clearFields();
   ui.showAlert("Book added");
