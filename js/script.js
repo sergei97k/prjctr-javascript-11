@@ -27,17 +27,15 @@ class UI {
     `;
 
     bookList.append(li);
-
-    this.clearFields();
-    this.showAlert("Book added");
   }
 
   deleteBook(target) {
-    if (target.className === "delete") {
-      target.closest("li").remove();
+    target.closest("li").remove();
+    this.showAlert("Book deleted");
+  }
 
-      this.showAlert("Book deleted");
-    }
+  displayBooks(books) {
+    books.forEach((book) => this.addBookToList(book));
   }
 
   clearFields() {
@@ -58,8 +56,45 @@ class UI {
   }
 }
 
+class Storage {
+  #storageKey = "books";
+
+  getBooks() {
+    const storageData = localStorage.getItem(this.#storageKey);
+
+    if (storageData === null) {
+      return [];
+    }
+
+    return JSON.parse(storageData);
+  }
+
+  addBook(book) {
+    const books = this.getBooks();
+    books.push(book);
+
+    localStorage.setItem(this.#storageKey, JSON.stringify(books));
+  }
+
+  removeBook(index) {
+    const books = this.getBooks();
+    books.splice(index, 1);
+
+    localStorage.setItem(this.#storageKey, JSON.stringify(books));
+  }
+}
+
 // class using
 const ui = new UI();
+const storage = new Storage();
+
+const initBooks = () => {
+  const books = storage.getBooks();
+  ui.displayBooks(books);
+};
+
+// init
+initBooks();
 
 // functions
 const handleSubmit = (event) => {
@@ -76,11 +111,21 @@ const handleSubmit = (event) => {
 
   const book = new Book(titleValue, authorValue, isbnValue);
   ui.addBookToList(book);
-  // ui.clearFields();
+  ui.clearFields();
+  ui.showAlert("Book added");
+
+  storage.addBook(book);
 };
 
 const handleRemove = (event) => {
-  ui.deleteBook(event.target);
+  if (event.target.className === "delete") {
+    const removedLi = event.target.closest("li");
+    const children = [...bookList.children];
+    const index = children.findIndex((li) => li === removedLi);
+
+    ui.deleteBook(event.target);
+    storage.removeBook(index);
+  }
 };
 
 // Event listeners
