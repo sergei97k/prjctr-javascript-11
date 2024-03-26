@@ -44,9 +44,9 @@ class UI {
     bookForm.reset();
   }
 
-  showAlert(message) {
+  showAlert(message, mode = "success") {
     const div = document.createElement("div");
-    div.className = "alert success";
+    div.className = `alert ${mode}`;
     div.textContent = message;
 
     document.body.insertBefore(div, bookForm);
@@ -70,6 +70,7 @@ const handleSubmit = (event) => {
   const isbnValue = isbn.value.trim();
 
   if (titleValue === "" || authorValue === "" || isbnValue === "") {
+    ui.showAlert("Please fill the form", "error");
     return;
   }
 
