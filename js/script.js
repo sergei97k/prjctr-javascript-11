@@ -7,6 +7,48 @@ const title = document.getElementById("title");
 const author = document.getElementById("author");
 const isbn = document.getElementById("isbn");
 
+// classes
+class Book {
+  constructor(title, author, isbn) {
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
+  }
+}
+
+class UI {
+  addBookToList(book) {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${book.title}</span>
+      <span>${book.author}</span>
+      <span>${book.isbn}</span>
+    `;
+
+    bookList.append(li);
+
+    this.clearFields();
+    this.showAlert("Book added");
+  }
+
+  clearFields() {
+    bookForm.reset();
+  }
+
+  showAlert(message) {
+    const div = document.createElement("div");
+    div.className = "alert success";
+    div.textContent = message;
+
+    document.body.insertBefore(div, bookForm);
+
+    setTimeout(() => {
+      document.querySelector(".alert").remove();
+      // div.remove();
+    }, 3000);
+  }
+}
+
 // functions
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -19,7 +61,10 @@ const handleSubmit = (event) => {
     return;
   }
 
-  console.log(titleValue, authorValue, isbnValue);
+  const book = new Book(titleValue, authorValue, isbnValue);
+  const ui = new UI();
+  ui.addBookToList(book);
+  // ui.clearFields();
 };
 
 // Event listeners
